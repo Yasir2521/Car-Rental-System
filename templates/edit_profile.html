@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: url('https://img.freepik.com/free-vector/coloured-blurred-background_1112-515.jpg') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            font-family: Verdana, sans-serif; /* Verdana font for all text */
+        }
+        .container {
+            background-color: rgba(0, 0, 0, 0.8);
+            width: 60%;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            color: white;
+        }
+        .form-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .form-group i {
+            margin-right: 10px;
+            color: #007bff; /* Icon color */
+        }
+        input[type="text"],
+        select {
+            width: calc(100% - 30px);
+            padding: 10px;
+            margin: 5px 0 15px 5px;
+            background-color: #333;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            color: white;
+        }
+        .btn {
+            background-color: #20c997;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            background-color: #1cb386;
+        }
+        .title {
+            color: white;
+            background-color: rgba(0, 128, 128, 0.5);
+            text-align: center;
+            font-family: Verdana, sans-serif;
+            font-weight: bold;
+            font-size: 28px; /* Larger and bolder text */
+            border-radius: 10px;
+            margin: 20px auto;
+            width: fit-content;
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="title"><i class="fas fa-edit"></i> Edit Profile</div>
+    <div class="container">
+        <form method="post" action="/editted">
+            {% csrf_token %}
+            <div class="form-group">
+                <i class="fas fa-user"></i>
+                <label for="id_first_name">First Name:</label>
+                <input type="text" name="f_name" id="f_name" value="{{ user_data.f_name }}" required>
+            </div>
+            <div class="form-group">
+                <i class="fas fa-user"></i>
+                <label for="id_last_name">Last Name:</label>
+                <input type="text" name="l_name" id="l_name" value="{{ user_data.l_name }}" required>
+            </div>
+            <div class="form-group">
+                <i class="fas fa-globe"></i>
+                <label for="country">Country Code:</label>
+                <select name="country" id="country" required>
+                    <option value="">Select Country</option>
+                    <option value="Bangladesh" {% if user_data.country == 'Bangladesh' %} selected {% endif %}>Bangladesh</option>
+                    <option value="USA" {% if user_data.country == 'USA' %} selected {% endif %}>United States</option>
+                    <option value="UK" {% if user_data.country == 'UK' %} selected {% endif %}>United Kingdom</option>
+                    <!-- Add more country options as needed -->
+                </select>
+            </div>
+            <div class="form-group">
+                <i class="fas fa-flag"></i>
+                <label for="id_country">Country:</label>
+                <select name="countrycode" id="countrycode" required>
+                    <option value="">Select Country Code</option>
+                    <option value="+880" {% if user_data.country_code == '+880' %} selected {% endif %}>+880 (Bangladesh)</option>
+                    <option value="+1" {% if user_data.country_code == '+1' %} selected {% endif %}>+1 (USA)</option>
+                    <option value="+44" {% if user_data.country_code == '+44' %} selected {% endif %}>+44 (UK)</option>
+                    <!-- Add more country codes as needed -->
+                </select>
+            </div>
+            <div class="form-group">
+                <i class="fas fa-phone"></i>
+                <label for="id_mobile">Mobile:</label>
+                <input type="text" name="mobile" id="mobile" value="{{ user_data.mobile }}" required>
+            </div>
+            <button type="submit" class="btn">Save & Submit</button>
+        </form>
+    </div>
+</body>
+</html>

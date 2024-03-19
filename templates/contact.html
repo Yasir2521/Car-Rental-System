@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
+{% block title %}Contact{% endblock title %}
+
+{% block body %}
+<style>
+  body {
+    background-image: url('https://carsguide-res.cloudinary.com/image/upload/f_auto,fl_lossy,q_auto,t_cg_hero_large/v1/editorial/story/hero_image/Rolls_Royce_Wraith_2019_grey_1.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .gradient-form {
+    background-color: rgba(255, 255, 255, 0.5); /* Slightly transparent background */
+    backdrop-filter: blur(5px); /* Blurred background */
+    border-radius: 10px;
+    padding: 20px;
+  }
+
+  .form-label {
+    font-weight: bold;
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+  }
+
+  .btn-submit {
+    margin-top: 10px;
+  }
+</style>
+
+<div class="col-lg-6 d-flex align-items-center justify-content-center">
+  <div class="text-black px-3 py-4 p-md-5 mx-md-4 gradient-form">
+    <section>
+      <h2 class="text-center mb-5">Contact Us</h2>
+      <form method="post" action="{% url 'contact' %}">
+        {% csrf_token %}
+        <div class="form-outline mb-4">
+          <label class="form-label" for="contactname">Name :</label>
+          <input type="text" id="contactname" name="contactname" class="form-control"
+                 placeholder="Name" required>
+        </div>
+        <div class="form-outline mb-4">
+          <label class="form-label" for="contactnumber">Phone Number :</label>
+          <input type="tel" id="contactnumber" name="contactnumber" class="form-control"
+                 placeholder="e.g. 9015789452" required>
+        </div>
+        <div class="form-outline mb-4">
+          <label class="form-label" for="contactemail">Email :</label>
+          <input type="email" id="contactemail" name="contactemail" class="form-control"
+                 placeholder="something@gmail.com" required>
+        </div>
+        <div class="form-outline mb-4">
+          <label class="form-label" for="contactmsg">Message :</label>
+          <textarea id="contactmsg" name="contactmsg" class="form-control"
+                    placeholder="Please Write something here" required></textarea>
+        </div>
+        <div class="text-center pt-1 mb-5">
+          <button type="submit" class="btn btn-info btn-submit">Submit</button>
+        </div>
+      </form>
+    </section>
+  </div>
+</div>
+{% endblock body %}

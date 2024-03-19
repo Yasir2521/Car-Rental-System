@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta viewport="width=device-width, initial-scale=1.0">
+    <title>Your Profile</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: url('https://img.freepik.com/free-photo/abstract-multi-colored-backdrop-defocused-with-softness-generated-by-ai_188544-15592.jpg?') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            width: 60%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.5); /* Transparent container */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .profile-info {
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #0000FF, #8A2BE2); /* Blue to purple gradient */
+            color: white;
+            padding: 10px;
+            border-radius: 20px;
+        }
+        .profile-info:hover {
+            background: linear-gradient(135deg, #8A2BE2, #0000FF); /* Gradient change on hover */
+        }
+        .profile-info i {
+            margin-right: 10px;
+        }
+        .btn-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="font-weight: bold; font-size: 24px; color: white; background-color: rgba(0, 0, 255, 0.3); text-align: center; font-family: Verdana, sans-serif; padding: 10px; border-radius: 5px;">Profile Information</h1>
+
+    <div class="container">
+        <div class="profile-info">
+            <i class="fas fa-user"></i>
+            <p><strong>Name:</strong> {{user_data.f_name}} {{user_data.l_name}}</p>
+        </div>
+        <div class="profile-info">
+            <i class="fas fa-envelope"></i>
+            <p><strong>Email:</strong> {{user_data.email}}</p>
+        </div>
+        <div class="profile-info">
+            <i class="fas fa-flag"></i>
+            <p><strong>Country:</strong> {{user_data.country}}</p>
+        </div>
+        <div class="profile-info">
+            <i class="fas fa-phone"></i>
+            <p><strong>Phone:</strong> {{user_data.country_code}}-{{user_data.mobile}}</p>
+        </div>
+    </div>
+    <div class="btn-container">
+        <a href="/edit_profile" class="btn"><i class="fas fa-edit"></i> Edit Profile</a>
+        <a href="/loggedin" class="btn">Return Home</a>
+    </div>
+</body>
+</html>
