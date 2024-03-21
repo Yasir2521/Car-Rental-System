@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User, auth
-from home.models import Signup,Contact
+from home.models import Signup,Contact,Car
 # Create your views here.
 
 def index(request):
@@ -86,6 +86,11 @@ def contact(request):
         contact.save()
         return redirect('loggedin')  # Make sure 'loggedin' is the correct URL name
     return render(request, 'contact.html')
+def vehicles(request):
+    cars = Car.objects.all()
+    # print(cars)
+    params = {'car':cars}
+    return render(request,'vehicles.html ',params)
 
 
 

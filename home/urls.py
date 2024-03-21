@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from home import views
 
+
 urlpatterns = [
     path('', views.index, name = 'home'),
     path('login', views.login, name = 'login'),
@@ -12,5 +13,7 @@ urlpatterns = [
     path('editted', views.editted, name='editted'),
     path('property_det', views.property_det, name='property_det'),
     path('contact/',views.contact,name = 'contact'),
-  
+    #path("vehicles/", views.vehicles, name= "vehicles"),
+    path('vehicles.html', views.vehicles, name='vehicles'),
+
 ]
