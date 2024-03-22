@@ -1,0 +1,273 @@
+{% extends 'base.html' %}
+
+{% block title %}Vehicles{% endblock title %}
+{%load static%}
+<link rel="stylesheet" href="{%static 'style.css'%}">
+{% block body %}
+<form method="post" action="\bill">
+  {% csrf_token %}
+
+<style>
+    /* Add your custom CSS styles here */
+#yo {
+  margin-top: 50px;
+}
+
+.cols {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.head {
+  color: #007bff;
+}
+
+.cols1 {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 30px;
+}
+
+.list-group {
+  border: none;
+}
+
+.list-group-item {
+  background-color: #f8f9fa;
+  border: none;
+}
+
+.form-control {
+  border-radius: 5px;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.modal-header {
+  background-color: #007bff;
+  color: #fff;
+  border-bottom: none;
+}
+
+.modal-title {
+  font-size: 24px;
+}
+
+.modal-body {
+  color: #000;
+}
+
+.modal-footer {
+  background-color: #f8f9fa;
+  border-top: none;
+}
+
+.close {
+  color: #fff;
+}
+
+#rentsec {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+</style>
+<div class="container" id="yo">
+  
+  <div class="cols my-4">
+    <h2 style="text-align : center" class="head my-4">Booking Details</h2>   
+      <div class="form-group col-md-12">
+        <p>Customer Name: <span id="modalCustomerName"></span></p>
+        <input type="text" class="form-control" id="billname" name = "billname" placeholder="Full Name" required>
+      </div>
+      <div class="form-row ">
+        <div class="form-group col-md-6">
+          <label for="billemail">Email : </label>
+          <input type="email" class="form-control" id="billemail" name = "billemail" placeholder="name@gmail.com">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="billphone">Phone Number : </label>
+          <input type="tel" class="form-control" id="billphone" name = "billphone">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputAddress">Address</label>
+        <input type="text" class="form-control" id="billaddress" name = "billaddress" placeholder="COEP">
+      </div>
+
+        
+      {% comment %} <p>Price : {{cars.price}}</p> {% endcomment %}
+      </div>  
+      <h2 style="text-align : center" class="head my-4">Car Details</h2>
+      <div class="form-group col-md-6">
+        <label for="cars11">Car Chosen (For Confirmation)</label>
+        <select id="cars11" name="cars11" class="form-control" onchange="updateTotalRent()">
+          <option selected="selected" disabled>Choose...</option>
+          {% for car in cars %}
+            <option value="{{ car.car_name }}" data-rent="{{ car.price }}">
+              {{ car.car_name }} - {{ car.price }} per day
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+          <!-- Include other fields here -->
+      
+        <div class="form-group col-md-6" >
+          <label for="color1">Color of the car</label>
+          <select id="color1" class="form-control">
+            <option selected>Choose...</option>
+            <option value="Black">Black</option>
+            <option value="Red">Red</option>
+            <option value="White">White</option>
+            <option value="Silver">Silver</option>
+            <option value="Blue">Blue</option>
+          </select>
+        </div>
+    
+      </div>
+      <div class="form-row ">
+        <div class="form-group col-md-6" id="d11">
+          <label for="dayss">No. of days : </label>
+            <input type="number" class="form-control" id="dayss" name ="dayss" min=1 max = 30>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="date">Pickup Date : </label>
+          <input type="date" class="form-control" id="date" name="date">
+        </div>
+      </div>
+      <div class="form-row ">
+        <div class="form-group col-md-6">
+          <label for="fl">From Location: </label>
+          <input type="text" class="form-control" id="fl" name="fl">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="tl">To Location : </label>
+          <input type="text" class="form-control" id="tl" name="tl">
+        </div> 
+      </div>   
+   
+  
+
+      <div class="cols1 my-4">
+        <h2 style="text-align : center">Total Bill</h2>
+        <ul class="list-group">
+          <li class="list-group-item d-flex justify-content-between align-items-center my-3" id="rentsec">
+            <p>Total Rent: Rs <span id="totalRent">0</span></p>
+         </li>
+        </ul>
+      </div>
+  </div>
+</div>
+
+<div class="text-center">
+  <button class="btn btn-primary " type="button" data-toggle="modal" data-target="#exampleModalLong" id="showre" onclick="calculate()">Display Bill</button> 
+  <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" id="13">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document" id="14" style="height:750px">
+      <div class="modal-content" id="15" style="background-color:rgb(226, 239, 251); ">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">Receipt : </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="printThis"><h1 style="text-align:center; background: -webkit-linear-gradient(#77f7f1, #094240);-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;" > Thanks for Booking! </h1><br>
+          <p id="n1" class="p2" style="text-align:center; font-size: 25px; font-weight:bold; color:rgb(35, 12, 109)" >Customer Name :  <span></span></p>
+          <p style="text-align:center"><span id="l1" class="p3" style="text-align:center; font-size: 25px; font-weight:bold ; color:rgb(35, 12, 109)" >From :  <span ></span></span> &nbsp;&nbsp;&nbsp;--------->&nbsp;&nbsp;&nbsp;
+            <span id="l2" class="p3" style="text-align:center; font-size: 25px; font-weight:bold; color:rgb(35, 12, 109)" >To :  <span ></span></span></p>
+            <p id="d2" class="p8" style="text-align:center; font-size: 25px; font-weight:bold; color:rgb(35, 12, 109)" >No. of days for rent :  <span></span></p>
+            <div class="form-group col-md-6">
+                <label for="date">Pickup Date :</label>
+                <input type="date" class="form-control" id="date" name="date">
+            </div>
+        
+         <p style="text-align:center; font-size: 23px;">
+          <span style="font-size:30px;font-weight:bold">Car Details :- </span><br><span style="font-weight:bold" id="crs1">Car : <span></span> </span><br><span style="font-weight:bold" id="crs2">Car color  : <span></span> </span><br><br></p>
+          <p id="total" class="p1" style="text-align:center; font-size: 25px; font-weight:bold" >Total Bill: Rs <span>N/A</span></p>
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="btnPrint">Download Receipt</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button class="btn btn-primary " type="submit"  >Confirm Booking</button>
+    
+</div>
+</form>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const updateModalContentAndTotalRent = () => {
+        // Fetch form values
+        const customerName = document.getElementById("billname").value;
+        const email = document.getElementById("billemail").value;
+        const phone = document.getElementById("billphone").value;
+        const fromLocation = document.getElementById("fl").value;
+        const toLocation = document.getElementById("tl").value;
+        const daysInput = document.getElementById("dayss");
+        const carSelect = document.getElementById("cars11");
+        const carColor = document.getElementById("color1").value;
+        const pickupDate = document.getElementById("date").value;
+
+        // Ensure a car is selected and days input is not empty
+        if (!carSelect || carSelect.selectedIndex === -1) return;
+
+        const rentPerDay = parseInt(carSelect.options[carSelect.selectedIndex].getAttribute('data-rent'), 10);
+        const days = parseInt(daysInput.value, 10) || 0;
+        const totalRent = rentPerDay * days;
+
+        // Update modal content
+        document.getElementById("modalCustomerName").textContent = customerName;
+        document.getElementById("modalEmail").textContent = email;
+        document.getElementById("modalPhone").textContent = phone;
+        document.getElementById("modalFromLocation").textContent = fromLocation;
+        document.getElementById("modalToLocation").textContent = toLocation;
+        document.getElementById("modalCar").textContent = carSelect.options[carSelect.selectedIndex].text;
+        document.getElementById("modalCarColor").textContent = carColor;
+        document.getElementById("modalDaysForRent").textContent = days;
+        document.getElementById("modalPickupDate").textContent = pickupDate;
+        document.getElementById("totalRent").textContent = `Rs ${totalRent}`;
+    };
+
+    // Update modal content when "Display Bill" is clicked
+    document.getElementById("showre").addEventListener('click', updateModalContentAndTotalRent);
+
+    // Set the minimum date for the pickup date input to today
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById("date").setAttribute("min", today);
+
+    // Printing functionality
+    document.getElementById("btnPrint").addEventListener('click', () => {
+        printElement(document.getElementById("printThis"));
+    });
+
+    function printElement(elem) {
+        var domClone = elem.cloneNode(true);
+        var $printSection = document.getElementById("printSection") || document.createElement("div");
+        if (!$printSection.id) {
+            $printSection.id = "printSection";
+            document.body.appendChild($printSection);
+        }
+
+        $printSection.innerHTML = "";
+        $printSection.appendChild(domClone);
+        window.print();
+    }
+});
+
+    </script>
+    
+    
+{% endblock body %}
