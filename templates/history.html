@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Car History{% endblock title %}
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
+
+{% block body %}
+
+<main role="main" style="background-color: rgb(240, 240, 240); padding: 20px;">
+    <div class="container">
+        <h1 class="jumbotron-heading text-center" style="font-size: 40px;">Car History Information</h1>
+        
+        <div class="car-history-details" style="margin-top: 30px;">
+            <h2 style="font-size: 30px;">Car ID: {{ car.car_id }}</h2>
+            <p><strong>Manufacturing Date:</strong> {{ car.manufacturing_date | date:"F d, Y" }}</p>
+            <p><strong>Damages:</strong> {{ car.damages | default:"No damages reported" }}</p>
+            <p><strong>Latest Safety Rating:</strong> {{ car.latest_safety_rating }}</p>
+            <a href="/vehicles" class="btn btn-dark" style="margin-top: 20px;">Back to Vehicles</a>
+        </div>
+    </div>
+</main>
+
+{% endblock body %}

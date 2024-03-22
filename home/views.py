@@ -93,4 +93,6 @@ def vehicles(request):
     return render(request,'vehicles.html ',params)
 
 
-
+def car_history(request, car_id):
+    car = get_object_or_404(Car, car_id=car_id)
+    return render(request, 'history.html', {'car': car})
