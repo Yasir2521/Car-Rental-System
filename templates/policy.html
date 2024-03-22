@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking Page</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Custom CSS styles */
+    .btn-black {
+      background-color: black;
+      color: white; /* Change text color to white */
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <!-- Button to trigger modal -->
+        <button type="button" class="btn btn-primary btn-black" data-toggle="modal" data-target="#termsModal">
+          GO AHEAD
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="termsModal" tabindex="-1" role="dialog" aria-labelledby="termsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="termsModalLabel">Terms and Policy</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Include terms and policy content here -->
+          <!-- You can also iframe the terms_and_policy.html page here -->
+          <p>Terms and Policies</p>
+          <p>Agreement: Follow rental rules and responsibilities.</p>
+          <p>Payment: Pay upfront; extra charges may apply.</p>
+           
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="proceedBooking()">Agree and Proceed</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS and jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script>
+    function proceedBooking() {
+      // Add your logic to proceed with the booking here
+      // For example, redirect to the booking page
+      window.location.href = "/bill";
+    }
+  </script>
+
+</body>
+</html>

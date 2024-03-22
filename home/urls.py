@@ -19,6 +19,8 @@ urlpatterns = [
     path('car_history/<int:car_id>/', views.car_history, name='car_history'),
     
     path("bill",views.bill,name = "bill"),
-    path("order",views.order,name = "order")
+    path("order",views.order,name = "order"),
+    path("about.html",views.about_us, name='about_us'),
+    path('policy', views.policy_view, name='policy'),
 
 ]

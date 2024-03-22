@@ -121,3 +121,10 @@ def order(request):
     else:
         print("error")
         return render(request,'bill.html')
+    
+    
+def policy_view(request):
+    return render(request, 'policy.html')
+
+def about_us(request):
+    return render(request,'about.html')          
