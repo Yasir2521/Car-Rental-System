@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User, auth
-from home.models import Signup,Contact,Car
+from home.models import Signup,Contact,Car, Order
 # Create your views here.
 
 def index(request):
@@ -96,3 +96,35 @@ def vehicles(request):
 def car_history(request, car_id):
     car = get_object_or_404(Car, car_id=car_id)
     return render(request, 'history.html', {'car': car})
+
+def bill(request):
+    cars = Car.objects.all()
+    params = {'cars':cars}
+    return render(request,'bill.html',params)
+
+def order(request):
+    if request.method == "POST":
+        billname = request.POST.get('billname','')
+        billemail = request.POST.get('billemail','')
+        billphone = request.POST.get('billphone','')
+        billaddress = request.POST.get('billaddress','')
+        cars11 = request.POST['cars11']
+        dayss = request.POST.get('dayss','')
+        date = request.POST.get('date','')
+        fl = request.POST.get('fl','')
+        tl = request.POST.get('tl','')
+
+
+        order = Order(name = billname,email = billemail,phone = billphone,address = billaddress,cars = cars11,days_for_rent = dayss,date = date,loc_from = fl,loc_to = tl)
+        order.save()
+        return redirect('home')
+    else:
+        print("error")
+        return render(request,'bill.html')
+    
+    
+def policy_view(request):
+    return render(request, 'policy.html')
+
+def about_us(request):
+    return render(request,'about.html')          

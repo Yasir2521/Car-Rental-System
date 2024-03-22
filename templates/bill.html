@@ -1,0 +1,225 @@
+{% extends 'base.html' %}
+
+{% block title %}Vehicles{% endblock title %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
+{% block body %}
+<form method="post" action="{% url 'order' %}">
+  {% csrf_token %}
+
+<style>
+    /* Custom CSS styles */
+    #yo {
+      margin-top: 50px;
+    }
+    .cols, .cols1 {
+      background-color: #f8f9fa;
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 30px;
+    }
+    .head {
+      color: #007bff;
+    }
+    .list-group-item {
+      background-color: #f8f9fa;
+      border: none;
+    }
+    .form-control {
+      border-radius: 5px;
+    }
+    .btn-primary {
+      background-color: #007bff;
+      border: none;
+    }
+    .btn-primary:hover {
+      background-color: #0056b3;
+    }
+    .modal-header {
+      background-color: #007bff;
+      color: #fff;
+      border-bottom: none;
+    }
+    .modal-body, .modal-footer {
+      background-color: #f8f9fa;
+      border-top: none;
+    }
+    .close {
+      color: #fff;
+    }
+    #rentsec {
+      font-size: 18px;
+      font-weight: bold;
+    }
+</style>
+
+<div class="container" id="yo">
+  <!-- Booking Details -->
+  <div class="cols my-4">
+    <h2 style="text-align: center" class="head my-4">Booking Details</h2>
+    <div class="form-group col-md-12">
+      <input type="text" class="form-control" id="billname" name="billname" placeholder="Full Name" required>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <input type="email" class="form-control" id="billemail" name="billemail" placeholder="name@gmail.com">
+      </div>
+      <div class="form-group col-md-6">
+        <input type="tel" class="form-control" id="billphone" name="billphone" placeholder="Phone Number">
+      </div>
+    </div>
+    <div class="form-group">
+      <input type="text" class="form-control" id="billaddress" name="billaddress" placeholder="Address">
+    </div>
+  </div>
+
+  <!-- Car Details -->
+  <div class="cols my-4">
+    <h2 style="text-align: center" class="head my-4">Car Details</h2>
+    <div class="form-group col-md-6">
+      <select id="cars11" name="cars11" class="form-control">
+        <option selected disabled>Choose...</option>
+        {% for car in cars %}
+          <option value="{{ car.car_name }}" data-rent="{{ car.price }}">
+            {{ car.car_name }} - {{ car.price }} per day
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group col-md-6">
+      <select id="color1" name="color1" class="form-control">
+        <option selected>Choose...</option>
+        <option value="Black">Black</option>
+        <option value="Red">Red</option>
+        <option value="White">White</option>
+        <option value="Silver">Silver</option>
+        <option value="Blue">Blue</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <input type="number" class="form-control" id="dayss" name="dayss" min="1" max="30" placeholder="No. of days">
+      </div>
+      <div class="form-group col-md-6">
+        <input type="date" class="form-control" id="date" name="date" placeholder="Pickup Date">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <input type="text" class="form-control" id="fl" name="fl" placeholder="From Location">
+      </div>
+      <div class="form-group col-md-6">
+        <input type="text" class="form-control" id="tl" name="tl" placeholder="To Location">
+      </div>
+    </div>
+    
+      </div>
+      <!-- Total Bill -->
+      <div class="cols1 my-4">
+        <h2 style="text-align: center">Total Bill</h2>
+        <ul class="list-group">
+          <li class="list-group-item d-flex justify-content-between align-items-center my-3" id="rentsec">
+            Total Rent: BDT <span id="totalRent">0</span>
+          </li>
+        </ul>
+      </div>
+      <div class="text-center">
+        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#exampleModalLong" id="showre">Display Bill</button>
+        <button class="btn btn-primary" type="submit">Confirm Booking</button>
+      </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Receipt</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" id="printThis">
+            <h1 style="text-align:center; background: -webkit-linear-gradient(#77f7f1, #094240); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Thanks for Booking!</h1>
+            <br>
+            <p style="text-align:center; font-size: 25px; font-weight:bold; color:rgb(35, 12, 109)">Customer Name: <span id="customerNameDisplay"></span></p>
+            <p style="text-align:center; font-size: 25px; font-weight:bold; color:rgb(35, 12, 109)">From: <span id="fromLocationDisplay"></span> ---------> To: <span id="toLocationDisplay"></span></p>
+            <p style="text-align:center; font-size: 25px; font-weight:bold; color:rgb(35, 12, 109)">Pickup Date: <span id="pickupDateDisplay"></span></p>
+            <p style="text-align:center; font-size: 23px;">
+              Car Details: <br>Car: <span id="carNameDisplay"></span> <br>Car color: <span id="carColorDisplay"></span>
+            </p>
+            <p style="text-align:center; font-size: 25px; font-weight:bold">Total Bill: BDT <span id="totalBillDisplay">0</span></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="btnPrint">Download Receipt</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </form>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const updateModalContent = () => {
+          const customerName = document.getElementById("billname").value;
+          const fromLocation = document.getElementById("fl").value;
+          const toLocation = document.getElementById("tl").value;
+          const pickupDate = document.getElementById("date").value;
+          const carSelect = document.getElementById("cars11");
+          const carColor = document.getElementById("color1").options[document.getElementById("color1").selectedIndex].text;
+          const totalRent = document.getElementById("totalRent").textContent;
+      
+          document.getElementById("customerNameDisplay").textContent = customerName;
+          document.getElementById("fromLocationDisplay").textContent = fromLocation;
+          document.getElementById("toLocationDisplay").textContent = toLocation;
+          document.getElementById("pickupDateDisplay").textContent = new Date(pickupDate).toLocaleDateString("en-US");
+          document.getElementById("carNameDisplay").textContent = carSelect.options[carSelect.selectedIndex].text;
+          document.getElementById("carColorDisplay").textContent = carColor;
+          document.getElementById("totalBillDisplay").textContent = totalRent;
+        };
+      
+        const updateTotalRent = () => {
+          const carSelect = document.getElementById("cars11");
+          const daysInput = document.getElementById("dayss");
+          if (!carSelect || carSelect.selectedIndex === -1) return;
+      
+          const rentPerDay = parseInt(carSelect.options[carSelect.selectedIndex].getAttribute('data-rent'), 10);
+          const days = parseInt(daysInput.value, 10) || 0;
+          const totalRent = rentPerDay * days;
+      
+          document.getElementById("totalRent").textContent = `BDT ${totalRent}`;
+          document.getElementById("totalBillDisplay").textContent = totalRent;
+        };
+      
+        document.getElementById("showre").addEventListener('click', () => {
+          updateModalContent();
+          updateTotalRent();
+        });
+      
+        // Set the minimum date for the pickup date input to today
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById("date").setAttribute("min", today);
+        
+        document.getElementById("btnPrint").onclick = function () {
+          printElement(document.getElementById("printThis"));
+      }
+      
+      function printElement(elem) {
+          var domClone = elem.cloneNode(true);
+          
+          var $printSection = document.getElementById("printSection");
+          
+          if (!$printSection) {
+              var $printSection = document.createElement("div");
+              $printSection.id = "printSection";
+              document.body.appendChild($printSection);
+          }
+          
+          $printSection.innerHTML = "";
+          $printSection.appendChild(domClone);
+          window.print();
+      }      
+      
+      });
+      </script>
+      
+    {% endblock body %}
