@@ -2,22 +2,17 @@
 
 {% block title %}Cars{% endblock title %}
 
-{%load static%}
-<link rel="stylesheet" href="{%static 'style.css'%}">
+{% load static %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
 
 {% block body %}
- 
 
 <main role="main" style="background-color: rgb(200, 200, 200)">
 
     <section class="jumbotron text-center" style="background-color: rgb(200, 200, 200)">
       <div class="container">
-        <h1 class="jumbotron-heading" style="font-size:50px">Welcome {{request.f_name}} !!</h1>
+        <h1 class="jumbotron-heading" style="font-size:50px">Welcome {{ request.f_name }} !!</h1>
        <p style="font-size:25px; margin-top:30px">Get wide varieties of cars in affordable prices!!</p>
-        <p>
-          
-          
-        </p>
       </div>
     </section>
  
@@ -30,33 +25,34 @@
             
             <div class="card mb-4 shadow-sm">
               
-              {%load static%}
+              {% load static %}
               <img src="{{ i.image.url }}" alt="car" class="d-block w-100" height="225">
               <div class="card-body">
             
                 
            
-                <h4 style="text-align:center" >{{i.car_name}}</h4>
+                <h4 style="text-align:center" >{{ i.car_name }}</h4>
                 
-                <p class="card-text">{{i.car_desc}}</p>
-                <p id="{{i.car_id}}">Price per Day : {{i.price}}</p>
+                <p class="card-text">{{ i.car_desc }}</p>
+                <p id="{{ i.car_id }}">Price per Day : {{ i.price }}</p>
                
                 <div class="d-flex justify-content-between align-items-center" id="7">
                   <div class="btn-group" id="8">
-                    <a type="button" class="btn btn-sm btn-dark " href="\bill" id="rentbtn">RENT</a>
-                   
+                    <a type="button" class="btn btn-sm btn-dark" href="\bill" id="rentbtn">RENT</a>
+                  </div>
+                  
+                  <div class="btn-group" style="margin-left: 10px;" id="8"> <!-- Added margin-left for spacing -->
+                    <a type="button" class="btn btn-sm btn-dark" href="{% url 'car_history' i.car_id %}" id="historybtn">HISTORY</a>
+
                   </div>
                   
                 </div>
+                
               </div>
             </div>
             
           </div>
           
-          {%endfor%}
-          
-
+          {% endfor %}
 
 {% endblock body %}
-
-
