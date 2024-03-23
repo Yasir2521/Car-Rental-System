@@ -128,3 +128,14 @@ def policy_view(request):
 
 def about_us(request):
     return render(request,'about.html')          
+from django.shortcuts import render
+from .models import Car  # Make sure to import the Car model correctly
+
+def vehicles(request):
+    query = request.GET.get('query', '')  # Get the search query from the request
+    if query:
+        cars = Car.objects.filter(car_name__icontains=query)  # Filter cars by name
+    else:
+        cars = Car.objects.all()  # Return all cars if no query
+    params = {'car': cars, 'query': query}
+    return render(request, 'vehicles.html', params)

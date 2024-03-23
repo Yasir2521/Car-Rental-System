@@ -22,5 +22,5 @@ urlpatterns = [
     path("order",views.order,name = "order"),
     path("about.html",views.about_us, name='about_us'),
     path('policy', views.policy_view, name='policy'),
-
+    
 ]
