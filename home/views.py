@@ -8,34 +8,71 @@ def index(request):
     #     return redirect('/login')"""
     return render(request, 'index.html')
 
+
+from django.contrib import auth
+from django.contrib import messages
+
+
 def login(request):
-   if request.method == 'POST':
+    if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
-        user = auth.authenticate(username = email, password = password)
+        
+        # Check if a user with this email exists
+        if not User.objects.filter(email=email).exists():
+            return render(request, 'login.html', {'error': 'No user found with this email address'})
+
+        user = auth.authenticate(username=email, password=password)
         if user is not None:
             request.session['email'] = user.username
-            auth.login(request,user)
+            auth.login(request, user)
+            messages.success(request, 'Sucessfully logged in')
             return redirect('/loggedin')
-   return render(request, 'login.html')
+        else:
+            return render(request, 'login.html', {'error': 'Invalid password'})
+
+    return render(request, 'login.html')
+
+
+from django.contrib.auth import authenticate
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 
 def signup(request):
     if request.method == 'POST':
         email = request.POST.get('email')
         f_name = request.POST.get('firstname')
         l_name = request.POST.get('lastname')
-        country  = request.POST.get('country')
-        country_code = request.POST.get('countrycode')
         mobile = request.POST.get('mobile')
         password = request.POST.get('password')
-        signup_alldata = Signup( email = email, f_name = f_name, l_name = l_name, country = country, 
-                             country_code = country_code, mobile = mobile)
+        confirm_password = request.POST.get('confirmpassword')
+        
+        
+        try:
+            validate_email(email)
+        except ValidationError:
+            
+            return render(request, 'signup.html', {'error': 'Invalid email format'})
+
+        
+        if User.objects.filter(email=email).exists():
+            return render(request, 'signup.html', {'error': 'Email already in use'})
+        
+        
+        if password != confirm_password:
+            return render(request, 'signup.html', {'error': 'Passwords do not match'})
+
+        
+        signup_alldata = Signup(email=email, f_name=f_name, l_name=l_name,
+                                 mobile=mobile)
         signup_alldata.save()
 
-        signup_data = User.objects.create_user(email = email, username = email, password = password)
-        signup_data.save()
-        return redirect('/login')
         
+        signup_data = User.objects.create_user(email=email, username=email, password=password)
+        signup_data.save()
+        
+        return redirect('/login')
+
     return render(request, 'signup.html')
 
 def loggedin(request):
@@ -66,8 +103,7 @@ def editted(request):
         if user_data:
             user_data.f_name = request.POST.get('f_name')
             user_data.l_name = request.POST.get('l_name')
-            user_data.country  = request.POST.get('country')
-            user_data.country_code = request.POST.get('countrycode')
+            
             user_data.mobile = request.POST.get('mobile')
             user_data.save()  # Save the changes to the database
             return redirect('/profile')
@@ -122,9 +158,6 @@ def order(request):
         print("error")
         return render(request,'bill.html')
     
-    
-def policy_view(request):
-    return render(request, 'policy.html')
 
 def about_us(request):
     return render(request,'about.html')          

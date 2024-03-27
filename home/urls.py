@@ -11,7 +11,7 @@ urlpatterns = [
     path('profile', views.profile, name='profile'),
     path('edit_profile', views.edit_profile, name='edit_profile'),
     path('editted', views.editted, name='editted'),
-    path('property_det', views.property_det, name='property_det'),
+
     path('contact/',views.contact,name = 'contact'),
 
     path('vehicles.html', views.vehicles, name='vehicles'),
@@ -21,6 +21,6 @@ urlpatterns = [
     path("bill",views.bill,name = "bill"),
     path("order",views.order,name = "order"),
     path("about.html",views.about_us, name='about_us'),
-    path('policy', views.policy_view, name='policy'),
+
     
 ]

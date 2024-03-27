@@ -53,9 +53,27 @@
   a:hover {
     color: rgba(255, 255, 255, 0.5);
   }
+  .alert-top-middle {
+    position: fixed; /* Fixed positioning to stay in view */
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%); /* Center the alert */
+    width: auto; /* Adjust width as needed */
+    margin-top: 20px; /* Margin from the top */
+    z-index: 1050; /* Ensures it stays on top of other content, adjust as needed */
+}
+
 </style>
 </head>
 <body>
+  
+  {% if error %}
+    <!-- Error message alert -->
+    <div class="alert alert-danger alert-top-middle" role="alert">
+        {{ error }}
+    </div>
+{% endif %}
+  
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-md-6 login-container">

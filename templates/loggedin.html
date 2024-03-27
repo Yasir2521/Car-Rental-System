@@ -13,11 +13,27 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>QuickTrips | Find Your Perfect Ride</title>
-
+<style>
+  .alert {
+    position: absolute; /* Ensure the alert box is positioned absolutely */
+    top: 0; /* Position at the top of the page */
+    left: 0; /* Align to the left */
+    width: 100%; /* Take up the full width of the viewport */
+    z-index: 1000; /* Ensure it appears above other elements */
+  }
+</style>
 
 </head>
 <body>
 
+  {% for message in messages %}
+  <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+    <strong>Message:</strong> {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  {%endfor%}
 
 <div class="container-fluid px-0">
     <div class="carousel-box"> <!-- Box wrapper around the carousel -->

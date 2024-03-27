@@ -10,16 +10,21 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <link href="{% static 'custom.css' %}" rel="stylesheet" type="text/css"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
 <style>
 
   .btn-search {
-    background-color: rgb(96, 173, 251);
+    background-color: rgb(173, 216, 230);
     border-color: black;
     color: white;
   }
   .btn-search:hover {
     background-color: rgb(96, 173, 251);
     color: white; }
+  
+  
     </style>
 {% block body %}
 
@@ -64,7 +69,7 @@
                
                 <div class="d-flex justify-content-between align-items-center" id="7">
                   <div class="btn-group" id="8">
-                    <a type="button" class="btn btn-sm btn-dark" href="/policy" id="rentbtn">RENT</a>
+                    <a type="button" class="btn btn-sm btn-dark text-white" data-toggle="modal" data-target="#termsModal" id="rentbtn">RENT</a>
                   </div>
                   
                   <div class="btn-group" style="margin-left: 10px;" id="8"> <!-- Added margin-left for spacing -->
@@ -149,6 +154,49 @@
   </article>
   {% endfor %}
 </div>
+
+<div class="modal fade" id="termsModal" tabindex="-1" role="dialog" aria-labelledby="termsModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="termsModalLabel">Terms and Policy</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Include terms and policy content here -->
+        <!-- You can also iframe the terms_and_policy.html page here -->
+        {% comment %} <p><strong>Terms and Policies</strong></p> {% endcomment %}
+        <p><strong>*</strong>Customers must adhere to rental rules and responsibilities.</p>
+        <p><strong>*</strong>Payment is required upfront, with potential additional charges.</p>
+        <p><strong>*</strong>Vehicles must be returned in their rented condition.</p>
+        <p><strong>*</strong>Basic insurance coverage is provided, with optional upgrades available.</p>
+        <p><strong>*</strong>Cancellation policies apply, with fees and refunds subject to terms.</p>
+
+
+         
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="proceedBooking()">Agree and Proceed</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+  function proceedBooking() {
+    // Add your logic to proceed with the booking here
+    // For example, redirect to the booking page
+    window.location.href = "/bill";
+  }
+</script>
+
+
 </main>
 
 {% endblock body %}
