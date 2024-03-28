@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Cars{% endblock title %}
+
+{%load static%}
+<link rel="stylesheet" href="{%static 'style.css'%}">
+
+{% block body %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rent History</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h2>Rent History</h2>
+
+    {% if user_orders %}
+        <table>
+            <tr>
+                <th>Date</th>
+                <th>Car</th>
+                <th>From Location</th>
+                <th>To Location</th>
+                <th>Days Rented</th>
+                <th>Address</th>
+                <th>Phone</th>
+            </tr>
+            {% for order in user_orders %}
+                <tr>
+                    <td>{{ order.date }}</td>
+                    <td>{{ order.cars }}</td>
+                    <td>{{ order.loc_from }}</td>
+                    <td>{{ order.loc_to }}</td>
+                    <td>{{ order.days_for_rent }}</td>
+                    <td>{{ order.address }}</td>
+                    <td>{{ order.phone }}</td>
+                    <td>{{ order.rent_price_per_day }}</td>
+                    <td>{{ order.total_rent }}</td>
+                    <td><button type="submit" class="btn btn-primary">Pay Now</button></td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No rent history found.</p>
+    {% endif %}
+</body>
+</html>
+{% endblock body %}

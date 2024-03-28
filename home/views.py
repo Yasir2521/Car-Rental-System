@@ -109,8 +109,6 @@ def editted(request):
             return redirect('/profile')
         
 
-def property_det(request):
-    return render(request, 'property_det.html')
 def contact(request):
     if request.method == "POST":
         contactname = request.POST.get('contactname')
@@ -122,11 +120,6 @@ def contact(request):
         contact.save()
         return redirect('loggedin')  # Make sure 'loggedin' is the correct URL name
     return render(request, 'contact.html')
-def vehicles(request):
-    cars = Car.objects.all()
-    # print(cars)
-    params = {'car':cars}
-    return render(request,'vehicles.html ',params)
 
 
 def car_history(request, car_id):
@@ -134,11 +127,12 @@ def car_history(request, car_id):
     return render(request, 'history.html', {'car': car})
 
 def bill(request):
-    cars = Car.objects.all()
+    cars = Car.objects.filter(car_status='available')
     params = {'cars':cars}
     return render(request,'bill.html',params)
 
 def order(request):
+    
     if request.method == "POST":
         billname = request.POST.get('billname','')
         billemail = request.POST.get('billemail','')
@@ -150,10 +144,19 @@ def order(request):
         fl = request.POST.get('fl','')
         tl = request.POST.get('tl','')
 
+        car_name, price, car_id,car_color = cars11.split(' - ')
+        rent_per_day = float(price)
+        total_rent = rent_per_day * int(dayss)
 
-        order = Order(name = billname,email = billemail,phone = billphone,address = billaddress,cars = cars11,days_for_rent = dayss,date = date,loc_from = fl,loc_to = tl)
+
+        car = Car.objects.get(car_id=car_id)  # Find the car by its ID
+        car.car_status = 'reserved'  # Update the car's status
+        car.save()
+
+        user_data = get_user_data(request)
+        order = Order(user_email = user_data.email, name = billname,email = billemail,phone = billphone,address = billaddress,cars = car_name,days_for_rent = dayss,date = date,loc_from = fl,loc_to = tl,rent_price_per_day=price,selected_car_id=car_id,car_color=car_color, total_rent=total_rent)
         order.save()
-        return redirect('home')
+        return redirect('loggedin')
     else:
         print("error")
         return render(request,'bill.html')
@@ -167,8 +170,24 @@ from .models import Car  # Make sure to import the Car model correctly
 def vehicles(request):
     query = request.GET.get('query', '')  # Get the search query from the request
     if query:
-        cars = Car.objects.filter(car_name__icontains=query)  # Filter cars by name
+        cars = Car.objects.filter(car_name__icontains=query, car_status='available')  # Filter cars by name
     else:
-        cars = Car.objects.all()  # Return all cars if no query
+        cars = Car.objects.filter(car_status='available')  # Return all cars if no query
     params = {'car': cars, 'query': query}
     return render(request, 'vehicles.html', params)
+
+
+from django.shortcuts import render
+from .models import Order  # Ensure this import matches your Order model's actual location
+
+def rent_history(request):
+    # Assuming 'email' is the key used to store the user's email in the session
+    user_email = request.session.get('email', None)
+    if user_email:
+        # Fetching orders for the logged-in user
+        user_orders = Order.objects.filter(user_email=user_email)
+    else:
+        user_orders = []
+
+    # Passing orders to the rent_history template
+    return render(request, 'rent_history.html', {'user_orders': user_orders})
