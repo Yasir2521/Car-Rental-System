@@ -28,6 +28,15 @@
         th {
             background-color: #f2f2f2;
         }
+        .paid {
+            color: green;
+            font-weight: bold;
+        }
+
+        .paid::after {
+            content: '\2714'; /* Unicode checkmark character */
+            margin-left: 5px;
+        }
     </style>
 </head>
 <body>
@@ -55,7 +64,13 @@
                     <td>{{ order.phone }}</td>
                     <td>{{ order.rent_price_per_day }}</td>
                     <td>{{ order.total_rent }}</td>
-                    <td><button type="submit" class="btn btn-primary">Pay Now</button></td>
+                    <td>
+                        {% if order.payment_status == "paid" %}
+                        <span class="paid">Paid</span>
+                        {% else %}
+                        <a href="{% url 'payment' order.order_id order.total_rent %}" class="btn btn-primary">Pay Now</a>
+                        {% endif %}
+                    </td>
                 </tr>
             {% endfor %}
         </table>

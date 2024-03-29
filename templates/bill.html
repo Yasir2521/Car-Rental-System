@@ -80,7 +80,7 @@
       <select id="cars11" name="cars11" class="form-control" required>
         <option selected disabled>Choose...</option>
         {% for car in cars %}
-          <option value="{{ car.car_name }} - {{ car.price }} -  {{ car.car_id }} - {{ car.car_color }}" data-rent="{{ car.price }}">
+          <option value="{{ car.car_name }} - {{ car.car_color }} -  {{ car.car_id }} - {{ car.price }}" data-rent="{{ car.price }}">
             {{ car.car_name }} - {{ car.car_color }} - {{ car.price }} per day
           </option>
         {% endfor %}
@@ -149,77 +149,79 @@
     </div>
     </form>
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const updateModalContent = () => {
-          const customerName = document.getElementById("billname").value;
-          const fromLocation = document.getElementById("fl").value;
-          const toLocation = document.getElementById("tl").value;
-          const pickupDate = document.getElementById("date").value;
-          const carSelect = document.getElementById("cars11");
-          const carColor = document.getElementById("color1").options[document.getElementById("color1").selectedIndex].text;
-          const totalRent = document.getElementById("totalRent").textContent;
+
+        document.addEventListener('DOMContentLoaded', () => {
+          const updateModalContent = () => {
+              const customerName = document.getElementById("billname").value;
+              const fromLocation = document.getElementById("fl").value;
+              const toLocation = document.getElementById("tl").value;
+              const pickupDate = document.getElementById("date").value;
+              const carSelect = document.getElementById("cars11");
+              const selectedCarDetails = carSelect.options[carSelect.selectedIndex].value.split(" - ");
+              
+              // Assuming the value format is "CarName - CarColor - Price - CarID"
+              const carName = selectedCarDetails[0];
+              const carColor = selectedCarDetails[1]; // Adjust according to actual format
+              const carPrice = selectedCarDetails[3]; // Used if needed
       
-          document.getElementById("customerNameDisplay").textContent = customerName;
-          document.getElementById("fromLocationDisplay").textContent = fromLocation;
-          document.getElementById("toLocationDisplay").textContent = toLocation;
-          document.getElementById("pickupDateDisplay").textContent = new Date(pickupDate).toLocaleDateString("en-US");
-          document.getElementById("carNameDisplay").textContent = carSelect.options[carSelect.selectedIndex].text;
-          document.getElementById("carColorDisplay").textContent = carColor;
-          document.getElementById("totalBillDisplay").textContent = totalRent;
-        };
+              const totalRent = document.getElementById("totalRent").textContent;
       
-        const updateTotalRent = () => {
-          const carSelect = document.getElementById("cars11");
-          const daysInput = document.getElementById("dayss");
-          if (!carSelect || carSelect.selectedIndex === -1) return;
+              document.getElementById("customerNameDisplay").textContent = customerName;
+              document.getElementById("fromLocationDisplay").textContent = fromLocation;
+              document.getElementById("toLocationDisplay").textContent = toLocation;
+              document.getElementById("pickupDateDisplay").textContent = new Date(pickupDate).toLocaleDateString("en-US");
+              document.getElementById("carNameDisplay").textContent = carName;
+              document.getElementById("carColorDisplay").textContent = carColor;
+              document.getElementById("totalBillDisplay").textContent = totalRent;
+          };
       
-          const rentPerDay = parseInt(carSelect.options[carSelect.selectedIndex].getAttribute('data-rent'), 10);
-          const days = parseInt(daysInput.value, 10) || 0;
-          const totalRent = rentPerDay * days;
+          const updateTotalRent = () => {
+              const carSelect = document.getElementById("cars11");
+              const daysInput = document.getElementById("dayss");
+              if (!carSelect || carSelect.selectedIndex === -1) return;
       
-          document.getElementById("totalRent").textContent = `BDT ${totalRent}`;
-          document.getElementById("totalBillDisplay").textContent = totalRent;
-        };
+              const rentPerDay = parseInt(carSelect.options[carSelect.selectedIndex].getAttribute('data-rent'), 10);
+              const days = parseInt(daysInput.value, 10) || 0;
+              const totalRent = rentPerDay * days;
       
-        document.getElementById("showre").addEventListener('click', () => {
-          updateModalContent();
-          updateTotalRent();
-        });
+              document.getElementById("totalRent").textContent = `BDT ${totalRent}`;
+              document.getElementById("totalBillDisplay").textContent = totalRent;
+          };
       
-        // Set the minimum date for the pickup date input to today
-        const today = new Date().toISOString().split('T')[0];
-        document.getElementById("date").setAttribute("min", today);
-        
-        document.getElementById("btnPrint").onclick = function () {
-          printElement(document.getElementById("printThis"));
-      }
-      
-      function printElement(elem) {
-          // Create a new window for printing
-          var printWindow = window.open('', '_blank', 'width=600,height=600');
-          printWindow.document.write('<html><head><title>Print</title>');
-          
-          // Optional: Copy any styles you need from your main window into the print window
-          // This can include external stylesheets or style elements directly
-          var styles = document.querySelectorAll('link[rel="stylesheet"], style');
-          Array.prototype.forEach.call(styles, function(style) {
-              printWindow.document.write(style.outerHTML);
+          document.getElementById("showre").addEventListener('click', () => {
+              updateModalContent();
+              updateTotalRent();
           });
       
-          printWindow.document.write('</head><body >');
-          printWindow.document.write(elem.innerHTML); // Copy the content to be printed
-          printWindow.document.write('</body></html>');
-          printWindow.document.close(); // Close the document to finish writing into it
-          printWindow.focus(); // Focus on the new window to ensure the print dialog appears on top
+          const today = new Date().toISOString().split('T')[0];
+          document.getElementById("date").setAttribute("min", today);
       
-          // Use a timeout to account for large content or slow rendering
-          setTimeout(function() {
-              printWindow.print(); // Bring up the print dialog
-              printWindow.close(); // Close the window after printing
-          }, 250);
-      }
+          document.getElementById("btnPrint").onclick = function () {
+              printElement(document.getElementById("printThis"));
+          }
       
+          function printElement(elem) {
+              var printWindow = window.open('', '_blank', 'width=600,height=600');
+              printWindow.document.write('<html><head><title>Print</title>');
+              
+              var styles = document.querySelectorAll('link[rel="stylesheet"], style');
+              Array.prototype.forEach.call(styles, function(style) {
+                  printWindow.document.write(style.outerHTML);
+              });
+      
+              printWindow.document.write('</head><body>');
+              printWindow.document.write(elem.innerHTML);
+              printWindow.document.write('</body></html>');
+              printWindow.document.close();
+              printWindow.focus();
+      
+              setTimeout(function() {
+                  printWindow.print();
+                  printWindow.close();
+              }, 250);
+          }
       });
+      
       </script>
       
     {% endblock body %}

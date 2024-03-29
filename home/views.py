@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User, auth
 from home.models import Signup,Contact,Car, Order
+
+
 # Create your views here.
 
 def index(request):
@@ -132,7 +134,6 @@ def bill(request):
     return render(request,'bill.html',params)
 
 def order(request):
-    
     if request.method == "POST":
         billname = request.POST.get('billname','')
         billemail = request.POST.get('billemail','')
@@ -144,23 +145,31 @@ def order(request):
         fl = request.POST.get('fl','')
         tl = request.POST.get('tl','')
 
-        car_name, price, car_id,car_color = cars11.split(' - ')
+        car_name, car_color, car_id, price = cars11.split(' - ')
         rent_per_day = float(price)
         total_rent = rent_per_day * int(dayss)
 
-
-        car = Car.objects.get(car_id=car_id)  # Find the car by its ID
-        car.car_status = 'reserved'  # Update the car's status
-        car.save()
-
         user_data = get_user_data(request)
-        order = Order(user_email = user_data.email, name = billname,email = billemail,phone = billphone,address = billaddress,cars = car_name,days_for_rent = dayss,date = date,loc_from = fl,loc_to = tl,rent_price_per_day=price,selected_car_id=car_id,car_color=car_color, total_rent=total_rent)
-        order.save()
-        return redirect('loggedin')
+        if user_data is not None and hasattr(user_data, 'email'):
+            order = Order(user_email=user_data.email, name=billname, email=billemail, phone=billphone, address=billaddress,
+                          cars=car_name, days_for_rent=dayss, date=date, loc_from=fl, loc_to=tl,
+                          rent_price_per_day=price, selected_car_id=car_id, car_color=car_color, total_rent=total_rent)
+            order.save()
+            #Ekhane niye aschi jaate kore jodi order na jay tahole reserve o hobe na.
+            car = Car.objects.get(car_id=car_id)
+            car.car_status = 'reserved'
+            car.save()
+            messages.success(request, 'Reservation Done')
+
+            return redirect('loggedin')
+        else:
+            # Handle the case where user data is not available
+            # You can redirect the user to a login page or display an error message
+            return redirect('login')
     else:
         print("error")
         return render(request,'bill.html')
-    
+
 
 def about_us(request):
     return render(request,'about.html')          
@@ -191,3 +200,20 @@ def rent_history(request):
 
     # Passing orders to the rent_history template
     return render(request, 'rent_history.html', {'user_orders': user_orders})
+
+
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+
+@csrf_exempt
+def payment(request, order_id, total_rent):
+    order = get_object_or_404(Order, order_id=order_id)
+    if request.method == 'POST':
+        order.payment_status = 'paid'
+        order.save()
+        car = get_object_or_404(Car, car_id=order.selected_car_id)
+        car.car_status = 'available'
+        car.save()
+        # Optionally, you can return a JSON response or redirect to a success page
+        return JsonResponse({'success': True})
+    return render(request, 'payment.html', {'order': order, 'total_rent': total_rent})

@@ -2,6 +2,10 @@ from django.contrib import admin
 from django.urls import path
 from home import views
 
+from django.urls import register_converter
+from . import converters
+
+register_converter(converters.FloatConverter, 'float')
 
 urlpatterns = [
     path('', views.index, name = 'home'),
@@ -22,6 +26,7 @@ urlpatterns = [
     path("order",views.order,name = "order"),
     path("about.html",views.about_us, name='about_us'),
     path("rent_history.html",views.rent_history, name='rent_history'),
+    path('payment/<int:order_id>/<float:total_rent>/', views.payment, name='payment'),
 
     
 ]
