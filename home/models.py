@@ -64,6 +64,17 @@ class Order(models.Model) :
     payment_status = models.CharField(max_length=20, default="not paid")
 
     def __str__(self):
-        return f"{self.name} - {self.cars}"    
+        return f"{self.name} - {self.cars}"  
+class Review(models.Model):
+    car = models.CharField(max_length=20, blank=True)
+    name = models.CharField(max_length=20, blank=True)
+   
+    review = models.TextField(max_length=500, blank=True)
+    rating = models.FloatField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name        
     
 

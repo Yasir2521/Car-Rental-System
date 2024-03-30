@@ -3,14 +3,34 @@
 {% block title %}About Us{% endblock title %}
 
 {% block body %}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-  <div class="jumbotron p-5 text-black rounded bg-info" style="height:560px ">
+  <div class="jumbotron p-5 text-black rounded bg-info" style="height:auto">
     <div class="col-md-6 px-0" style="margin:95px">
-      <h1 class="display-4 " style="font-size:90px">About Us!</h1>
-      <p class="lead my-3" style="">QuickTrips was established in 2021. After more than 3 years in business, QuickTrips is ready to meet your expectations with our fully renewed fleet of vehicles.</p>
-      {% comment %} <p class="lead mb-0"><a href="#" class="text-white font-weight-bold">Continue reading...</a></p> {% endcomment %}
+      <h1 class="display-10 " style="font-size:90px">About Us!</h1>
+      <p class="lead my-10" style="">QuickTrips was established in 2021. After more than 3 years in business, QuickTrips is ready to meet your expectations with our fully renewed fleet of vehicles.</p>
+      <div class="social-icons" style="font-size: 36px;">
+        <a href="https://www.facebook.com/yourpage" target="_blank" style="color: black;"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://twitter.com/yourpage" target="_blank" style="color: black;"><i class="fab fa-twitter"></i></a>
+        <a href="https://www.instagram.com/yourpage" target="_blank" style="color: black;"><i class="fab fa-instagram"></i></a>
+        <br>
+        <br>
+        <style>
+          .spacer {
+              margin-bottom: 20px;
+          }
+        </style>
       
-    </div>
+        <div class="spacer"></div>
+      
+        
+
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d58419.71930872701!2d90.33452954357776!3d23.774735243561388!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c78e49160331%3A0x2fd8ec432cec9fc4!2sBRAC%20University!5e0!3m2!1sen!2sbd!4v1711730594262!5m2!1sen!2sbd" width="1200" height="600" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+
+      </div>
+    
+    </div>S
   </div>
   <div class="p-3 mb-2  text-info" id="123">
     <div class="row m-5" >
@@ -23,7 +43,6 @@
           <h2 class="hd my-2 " style=" text-align:center">Safe</h2>
           <p style="font-size:20px; text-align:center">
             The most reliable platform globally for vehicle rental services. Our fleet consists of meticulously maintained vehicles in excellent condition. Regular servicing is conducted every two weeks to ensure optimal performance.</p>
-        
         </div><!-- /.col-lg-4 -->
         <div class="col-xl-4">
           <div class="container" >
@@ -32,7 +51,6 @@
           </div>
           <h2 class="hd my-2 " style=" text-align:center">Affordable Prices</h2>
           <p style="font-size:20px ; text-align:center">All the rent are in affordable prices. If there is a problem in the vehicle, there is a return back policy. Payment can be made online safely. </p>
-         
         </div><!-- /.col-lg-4 -->
         <div class="col-xl-4">
           <div class="container-center" >
@@ -43,5 +61,5 @@
           <p style="font-size:20px ; text-align:center">Safety is our foremost concern, guiding every decision and action we take. We prioritize creating an environment where everyone feels secure, supported, and protected at all times. </p>
         </div><!-- /.col-lg-4 -->
     </div>
-    </div> 
+    </div>
 {% endblock body %}

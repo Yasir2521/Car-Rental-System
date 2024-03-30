@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User, auth
-from home.models import Signup,Contact,Car, Order
+from home.models import Signup,Contact,Car, Order,Review
 
 
 # Create your views here.
@@ -182,8 +182,10 @@ def vehicles(request):
         cars = Car.objects.filter(car_name__icontains=query, car_status='available')  # Filter cars by name
     else:
         cars = Car.objects.filter(car_status='available')  # Return all cars if no query
-    params = {'car': cars, 'query': query}
-    return render(request, 'vehicles.html', params)
+    reviews = Review.objects.all()
+    params = {'car': cars, 'query': query,'reviews':reviews}
+    return render(request, 'vehicles.html', params)    
+ 
 
 
 from django.shortcuts import render
@@ -217,3 +219,16 @@ def payment(request, order_id, total_rent):
         # Optionally, you can return a JSON response or redirect to a success page
         return JsonResponse({'success': True})
     return render(request, 'payment.html', {'order': order, 'total_rent': total_rent})
+def review(request):
+    if request.method == "POST":
+        carname= request.POST.get('carname')
+        name = request.POST.get('name')
+      
+        review = request.POST.get('review')
+        ratings= request.POST.get('ratings')
+        createdate = request.POST.get('createdate')
+        update = request.POST.get('update')
+        review = Review(car=carname,name=name,review=review,rating=ratings,created_at=createdate,updated_at=update)
+        review.save()
+        return redirect('vehicles')  # Make sure 'loggedin' is the correct URL name
+    return render(request,'review.html') 

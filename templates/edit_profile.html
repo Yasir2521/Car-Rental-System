@@ -90,7 +90,7 @@
             <div class="form-group">
                 <i class="fas fa-phone"></i>
                 <label for="id_mobile">Mobile:</label>
-                <input type="text" name="mobile" id="mobile" value="{{ user_data.mobile }}" required>
+                <input type="text" name="mobile" id="mobile" value="{{ user_data.mobile }}"pattern="\d{11}" title="Mobile number must be 11 digits"required>
             </div>
             <button type="submit" class="btn">Save & Submit</button>
         </form>

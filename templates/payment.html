@@ -149,7 +149,7 @@
                 if (response.ok) {
                     alert(`${paymentMethod} Payment successful!`);
                     // Redirect to Rent History
-                    window.location.replace('{% url "rent_history" %}');
+                    window.location.replace('{% url "review" %}');
 
                 } else {
                     alert('Payment failed. Please try again.');
