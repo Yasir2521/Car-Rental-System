@@ -150,7 +150,7 @@ def order(request):
         total_rent = rent_per_day * int(dayss)
 
         user_data = get_user_data(request)
-        if user_data is not None and hasattr(user_data, 'email'):
+        if user_data is not None:
             order = Order(user_email=user_data.email, name=billname, email=billemail, phone=billphone, address=billaddress,
                           cars=car_name, days_for_rent=dayss, date=date, loc_from=fl, loc_to=tl,
                           rent_price_per_day=price, selected_car_id=car_id, car_color=car_color, total_rent=total_rent)
