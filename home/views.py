@@ -232,3 +232,12 @@ def review(request):
         review.save()
         return redirect('vehicles')  # Make sure 'loggedin' is the correct URL name
     return render(request,'review.html') 
+
+def cancel_order(request, order_id):
+    # Using order_id instead of id to fetch the order
+    order = get_object_or_404(Order, order_id=order_id)
+    car = get_object_or_404(Car, car_id=order.selected_car_id)
+    car.car_status = 'available'
+    car.save()
+    order.delete()
+    return redirect('rent_history')  # Redirect to the rent history page or wherever appropriate

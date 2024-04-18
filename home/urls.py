@@ -28,6 +28,7 @@ urlpatterns = [
     path("rent_history.html",views.rent_history, name='rent_history'),
     path('payment/<int:order_id>/<float:total_rent>/', views.payment, name='payment'),
     path('review.html',views.review,name ='review'), 
+    path('cancel_order/<int:order_id>/', views.cancel_order, name='cancel_order'),
 
     
 ]
