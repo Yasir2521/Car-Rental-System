@@ -4,6 +4,7 @@
 
 {% load static %}
 <link rel="stylesheet" href="{% static 'style.css' %}">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
 {% block body %}
 
@@ -11,14 +12,42 @@
     <div class="container">
         <h1 class="jumbotron-heading text-center" style="font-size: 40px;">Car History Information</h1>
         
-        <div class="car-history-details" style="margin-top: 30px;">
-            <h2 style="font-size: 30px;">Car ID: {{ car.car_id }}</h2>
-            <p><strong>Manufacturing Date:</strong> {{ car.manufacturing_date | date:"F d, Y" }}</p>
-            <p><strong>Damages:</strong> {{ car.damages | default:"No damages reported" }}</p>
-            <p><strong>Latest Safety Rating:</strong> {{ car.latest_safety_rating }}</p>
-            <a href="/vehicles.html" class="btn btn-dark" style="margin-top: 20px;">Back to Vehicles</a>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="car-history-details" style="margin-top: 30px;">
+                    <h2 style="font-size: 30px;">Car ID: {{ car.car_id }}</h2>
+                    <p><strong>Manufacturing Date:</strong> {{ car.manufacturing_date | date:"F d, Y" }}</p>
+                    <p><strong>Damages:</strong> {{ car.damages | default:"No damages reported" }}</p>
+                    <p><strong>Latest Safety Rating:</strong> {{ car.latest_safety_rating }}</p>
+                    <a href="/vehicles.html" class="btn btn-dark" style="margin-top: 20px;">Back to Vehicles</a>
+                </div>
+            </div>
+            <div class="col-md-6 text-center">
+                <img src="{{ car.image.url }}" alt="Car Image" class="img-fluid img-thumbnail car-image" data-toggle="modal" data-target="#carImageModal">
+            </div>
         </div>
     </div>
 </main>
+
+<!-- Modal -->
+<div class="modal fade" id="carImageModal" tabindex="-1" role="dialog" aria-labelledby="carImageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="carImageModalLabel">Car Image</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img src="{{ car.image.url }}" alt="Car Image" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 {% endblock body %}
