@@ -70,6 +70,6 @@ This project is licensed under the MIT License - see the <a target="_new" href="
 
 ### Contact
 For more information or to report issues, please visit our <a target="_new" href="https://github.com/Yasir2521/Car-Rental-System/issues">GitHub Issues</a> page or contact our team directly through the repository.
-<div class="p-4 overflow-y-auto"><code class="!whitespace-pre hljs language-vbnet">
-This README <span class="hljs-built_in">is</span> designed <span class="hljs-keyword">to</span> be clear <span class="hljs-built_in">and</span> engaging, encouraging users <span class="hljs-keyword">to</span> <span class="hljs-keyword">try</span> out QuickTrips <span class="hljs-built_in">and</span> contribute <span class="hljs-keyword">to</span> its development. Adjust the links <span class="hljs-built_in">and</span> any specific project details <span class="hljs-keyword">as</span> necessary.
+
+<div class="p-4 overflow-y-auto"><code class="!whitespace-pre hljs language-vbnet">This README <span class="hljs-built_in">is</span> designed <span class="hljs-keyword">to</span> be clear <span class="hljs-built_in">and</span> engaging, encouraging users <span class="hljs-keyword">to</span> <span class="hljs-keyword">try</span> out QuickTrips <span class="hljs-built_in">and</span> contribute <span class="hljs-keyword">to</span> its development. Adjust the links <span class="hljs-built_in">and</span> any specific project details <span class="hljs-keyword">as</span> necessary.
 </code></div>
