@@ -113,12 +113,11 @@ def editted(request):
 
 def contact(request):
     if request.method == "POST":
+        user_data = get_user_data(request)
         contactname = request.POST.get('contactname')
-        contactemail = request.POST.get('contactemail')
-        contactnumber = request.POST.get('contactnumber')
         contactmsg = request.POST.get('contactmsg')
-
-        contact = Contact(name=contactname, email=contactemail, phone_number=contactnumber, message=contactmsg)
+        timestamp=now()
+        contact = Contact(time=timestamp,email=user_data.email, name=contactname, message=contactmsg, reply ="Admin Yet to Reply")
         contact.save()
         return redirect('loggedin')  # Make sure 'loggedin' is the correct URL name
     return render(request, 'contact.html')
@@ -177,13 +176,14 @@ from django.shortcuts import render
 from .models import Car  # Make sure to import the Car model correctly
 
 def vehicles(request):
+    user_data = get_user_data(request)
     query = request.GET.get('query', '')  # Get the search query from the request
     if query:
         cars = Car.objects.filter(car_name__icontains=query, car_status='available')  # Filter cars by name
     else:
         cars = Car.objects.filter(car_status='available')  # Return all cars if no query
     reviews = Review.objects.all()
-    params = {'car': cars, 'query': query,'reviews':reviews}
+    params = {'car': cars, 'query': query,'reviews':reviews, 'user_name' : user_data.f_name}
     return render(request, 'vehicles.html', params)    
  
 
@@ -241,3 +241,49 @@ def cancel_order(request, order_id):
     car.save()
     order.delete()
     return redirect('rent_history')  # Redirect to the rent history page or wherever appropriate
+
+
+from datetime import timedelta
+from django.utils import timezone
+
+def now():
+    # Get the current UTC time
+    utc_now = timezone.now()
+
+    # Calculate the time zone offset for BDT (UTC+6)
+    bdt_offset = timedelta(hours=6)
+
+    # Convert UTC time to BDT time by adding the offset
+    bdt_time = utc_now + bdt_offset
+
+    # Determine if it's AM or PM
+    am_pm = 'AM' if bdt_time.hour < 12 else 'PM'
+
+    # Convert hour to 12-hour format
+    hour = bdt_time.hour % 12
+    if hour == 0:
+        hour = 12  # 12:00 AM is displayed as 12:00, not 00:00
+
+    # Format the BDT time as 'hour:minute AM/PM'
+    formatted_time = f"{hour:02d}:{bdt_time.strftime('%M')} {am_pm}"
+
+    # Format the date as 'Month Day, Year'
+    formatted_date = bdt_time.strftime('%B %d, %Y')
+
+    # Return the combined date and time string
+    return f"{formatted_date}, {formatted_time}"
+
+
+from .models import Contact 
+
+def message_request(request):
+    
+    user_email = request.session.get('email', None)
+    if user_email:
+        
+        user_messages = Contact.objects.filter(email=user_email)
+    else:
+        user_messages = []
+
+    
+    return render(request, 'message_request.html', {'user_messages': user_messages})

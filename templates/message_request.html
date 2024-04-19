@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block title %}Message Requests{% endblock title %}
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
+
+{% block body %}
+<style>
+    /* Define overall styles similar to chat.html */
+    #chat-container {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+        height: 600px;
+        display: flex;
+        flex-direction: column;
+        background-color: #f9f9f9;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+    }
+
+    #chat-box {
+        flex: 1;
+        display: flex;
+        flex-direction: column-reverse; /* Display the latest messages at the bottom */
+        padding: 10px;
+        overflow-y: auto;
+    }
+
+    .message {
+        padding: 5px 10px;
+        margin-bottom: 5px;
+        border-radius: 5px;
+        background-color: #f1f1f1;
+        width: fit-content;
+    }
+
+    .outgoing-message {
+        background-color: #dcf8c6;
+        align-self: flex-start;
+    }
+
+    .incoming-message {
+        background-color: #f1f1f1;
+        align-self: flex-end;
+        text-align: right;
+    }
+
+    th, td {
+        border: none; /* Remove default table borders */
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    #header {
+        text-align: center;
+        position: relative;
+        margin-bottom: 20px;
+    }
+</style>
+
+<div id="chat-container">
+    <div id="header">
+        <h1>Message Requests</h1>
+    </div>
+    <div id="chat-box">
+        {% if user_messages %}
+        <!-- Messages will be dynamically created -->
+        <table style="width:100%">
+            {% for msg in user_messages %}
+            <tr class="outgoing-message">
+                <td>{{ msg.time }} - {{ msg.message }}</td>
+            </tr>
+            <tr class="incoming-message">
+                <td>{{ msg.reply}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p>No message requests.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock body %}

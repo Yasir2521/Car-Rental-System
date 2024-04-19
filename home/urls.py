@@ -30,5 +30,5 @@ urlpatterns = [
     path('review.html',views.review,name ='review'), 
     path('cancel_order/<int:order_id>/', views.cancel_order, name='cancel_order'),
 
-    
+    path("message_request.html",views.message_request, name='message_request'),
 ]

@@ -8,13 +8,14 @@ class Signup(models.Model):
     mobile = models.CharField(max_length=20)
     
 class Contact(models.Model):
-    name = models.CharField(max_length=150, default="")
+    time = models.CharField(max_length=50,default="")
     email = models.CharField(max_length=150, default="")
-    phone_number = models.CharField(max_length=15, default="")
-    message = models.TextField(max_length=500, default="")
+    name = models.CharField(max_length=150, default="")
+    message = models.TextField(default="")
+    reply = models.TextField(default="")
 
     def __str__(self):
-        return self.name
+        return f"{self.name} - {self.reply}"
     
 class Car(models.Model):
     car_id = models.AutoField(primary_key=True)
