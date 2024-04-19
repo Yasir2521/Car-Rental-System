@@ -67,7 +67,7 @@ class Order(models.Model) :
     def __str__(self):
         return f"{self.name} - {self.cars}"  
 class Review(models.Model):
-    car = models.CharField(max_length=20, blank=True)
+
     name = models.CharField(max_length=20, blank=True)
    
     review = models.TextField(max_length=500, blank=True)

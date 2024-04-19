@@ -221,14 +221,14 @@ def payment(request, order_id, total_rent):
     return render(request, 'payment.html', {'order': order, 'total_rent': total_rent})
 def review(request):
     if request.method == "POST":
-        carname= request.POST.get('carname')
-        name = request.POST.get('name')
+        user_data = get_user_data(request)
+        name = f"{user_data.f_name} {user_data.l_name}"
       
         review = request.POST.get('review')
         ratings= request.POST.get('ratings')
         createdate = request.POST.get('createdate')
         update = request.POST.get('update')
-        review = Review(car=carname,name=name,review=review,rating=ratings,created_at=createdate,updated_at=update)
+        review = Review(name=name,review=review,rating=ratings,created_at=createdate,updated_at=update)
         review.save()
         return redirect('vehicles')  # Make sure 'loggedin' is the correct URL name
     return render(request,'review.html') 
