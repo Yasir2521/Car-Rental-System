@@ -21,7 +21,7 @@ Follow these instructions to get QuickTrips up and running on your local machine
 
 - Python 3.8 or newer
 - Django 3.1 or later
-- Other dependencies listed in `requirements.txt`
+- Other dependencies such as pip and VS Code
 
 ### Installation
 
@@ -60,10 +60,10 @@ After installation, access the application through http://localhost:8000/ to sta
 - Database: SQLite3
 
 ### Contributors
-- <a target="_new" href="https://github.com/moon-e-war">Munawar Mahtab Ansary</a>: Vehicle management, vehicle search and filtering. 
-- <a target="_new" href="https://github.com/Yasir2521">Yasir Arafat Saimon</a>: Login and signup systems, billing.
-- <a target="_new" href="https://github.com/mimraihan">Mim Raihan</a>: About Us page, review system, emergency contact.
-- <a target="_new" href="https://github.com/NibirNeelim">Nibir Nileem</a>: 3D car models, transaction management, AI chatbot.
+- <a target="_new" href="https://github.com/moon-e-war">Munawar Mahtab Ansary</a> 
+- <a target="_new" href="https://github.com/Yasir2521">Yasir Arafat Saimon</a>
+- <a target="_new" href="https://github.com/mimraihan">Mim Raihan</a>
+- <a target="_new" href="https://github.com/NibirNeelim">Nibir Nileem</a>
 
 ### License
 This project is licensed under the MIT License - see the <a target="_new" href="LICENSE.md">LICENSE.md</a> file for details.
