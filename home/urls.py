@@ -10,6 +10,7 @@ register_converter(converters.FloatConverter, 'float')
 urlpatterns = [
     path('', views.index, name = 'home'),
     path('login', views.login, name = 'login'),
+    path('logout', views.handlelogout, name = 'logout'),
     path('signup', views.signup, name = 'signup'),
     path('loggedin', views.loggedin, name = 'loggedin'),
     path('profile', views.profile, name='profile'),

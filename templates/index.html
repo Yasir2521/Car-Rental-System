@@ -53,10 +53,27 @@
     height: 100%; /* Ensure images cover the full height */
     object-fit: cover; /* Ensure images cover the box area without stretching */
   }
+
+  .alert {
+    position: absolute; /* Ensure the alert box is positioned absolutely */
+    top: 0; /* Position at the top of the page */
+    left: 0; /* Align to the left */
+    width: 100%; /* Take up the full width of the viewport */
+    z-index: 1000; /* Ensure it appears above other elements */
+  }
 </style>
 </head>
 <body>
 
+  {% for message in messages %}
+  <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+    <strong>Message:</strong> {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  {%endfor%}
+  
 <nav class="navbar navbar-expand-lg bg-light"> <!-- Changed the background class to bg-light for better contrast -->
   <div class="container-fluid">
     <a class="navbar-brand" href="">QuickTrips</a> <!-- Updated brand name -->

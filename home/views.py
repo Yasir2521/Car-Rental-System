@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.models import User, auth
+from django.contrib.auth.models import User
+from django.contrib import auth
+from django.contrib.auth import logout
 from home.models import Signup,Contact,Car, Order,Review
 
 
@@ -35,8 +37,13 @@ def login(request):
 
     return render(request, 'login.html')
 
+def handlelogout(request):
+    logout(request)
+    messages.success(request, 'Sucessfully logged out')
+    return redirect('/')
 
-from django.contrib.auth import authenticate
+
+
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 
